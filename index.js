@@ -36,9 +36,9 @@ app.use('/auth',authRouter);
 app.use('/posts',postRouter);
 app.use('/user',userRouter);
 
-// app.use('/',(req,res,next) => {
-//     res.status(200).send('Ok from server');
-// })
+app.use('/',(req,res,next) => {
+    res.status(200).send('Ok from server');
+})
 
 const port = process.env.PORT || 4000;
 
