@@ -6,30 +6,33 @@ const postRouter = require('./routers/postRouter');
 const userRouter = require('./routers/userRouter');
 const cloudinary = require('cloudinary').v2;
 const cors = require('cors');
-
-
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 
-
 dotenv.config('./.env');
+
 //Configuration
 cloudinary.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
     api_key: process.env.CLOUDINARY_API_KEY, 
     api_secret: process.env.CLOUDINARY_API_SECRET 
-  });
+});
 
 const app = express();
 
 //middlewares
 app.use(express.json({limit:'10mb'}));
-app.use(morgan('common'))
+app.use(morgan('common'));
 app.use(cookieParser());
+let origin = 'http://localhost:3000';
+console.log('here env is', process.env.NODE_ENV);
 
+if(process.env.NODE_ENV === 'production'){
+    origin = process.env.CORS_ORIGIN
+}
 app.use(cors({
     credentials:true,
-    origin:process.env.CORS_ORIGIN
+    origin
 }));
 
 app.use('/auth',authRouter);
